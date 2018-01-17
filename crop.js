@@ -2,7 +2,7 @@ var a;
 document.getElementById('a1').onchange= function() {
 	
 	//window.localStorage.removeItem("image-base64");
-  $("body").append('<div class="table" id="overlay" ><div class="tableRow"><div class="tabl Cell box"><canvas id="panel" width="380" height="380"></canvas><p><input type="button" id="cropBttn" value="Crop"></p></div><div class="tableCell box"><img src="" id="croppedImage"></div></div><input id="done" name="Done" value="Done" type="button"/></div>');
+$("body").append('<div class="table" id="overlay" ><div class="tableRow"><p id="Store"></p><div class="tabl Cell box"><canvas id="panel" width="380" height="380"></canvas><p><input type="button" id="cropBttn" value="Crop"></p></div><div class="tableCell box"><img src="" id="croppedImage"></div></div><input id="done" name="Done" value="Done" type="button"/></div>');
  	document.getElementById("overlay").style.display = "block";
 
 
@@ -21,11 +21,13 @@ updateUi = function() {
 	reader.readAsDataURL( this.files[ 0 ] );
     reader.onload = function (e) {
 	window.localStorage.removeItem("image-base64");
-	
-    window.localStorage.setItem( "image-base64", e.target.result );
+	a=e.target.result;
+   // window.localStorage.setItem( "image-base64", e.target.result );
 	console.log('image is set\n');
-	a=window.localStorage.getItem( "image-base64" );
-    
+	
+	//a=localStorage[ "image-base64"] ;
+	//document.getElementById("a1").value=localStorage[ "image-base64"];
+    //console.log(window.localStorage[ "image-base64"]);
    };
   // e();
   // var a=window.localStorage.getItem( "image-base64" );
@@ -39,7 +41,7 @@ updateUi = function() {
    while (currentTime + miliseconds >= new Date().getTime()) {
    }
 }
-   sleep(2000);
+   //sleep(2000);
    var imageCropper = {
 
             ctx: null,
