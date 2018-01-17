@@ -1,11 +1,26 @@
 var a;
+function seta(val){
+a=val;
+//console.log(a);
+}
+function geta(){
+return a;
+}
+$('#overlay').css('height', $('.tableRow').height());
+	$("body").append('<div class="table" id="overlay" ><div class="tableRow"><p id="Store"></p><div class="tabl Cell box"><canvas id="panel" width="380" height="380"></canvas><p><input type="button" id="cropBttn" value="Crop"><input id="done" name="Done" value="Done" type="button"/></p></div><div class="tableCell box"><img src="" id="croppedImage"></div></div></div>');
+	console.log("Appended");
 document.getElementById('a1').onchange= function() {
 	
-	//window.localStorage.removeItem("image-base64");
-$("body").append('<div class="table" id="overlay" ><div class="tableRow"><p id="Store"></p><div class="tabl Cell box"><canvas id="panel" width="380" height="380"></canvas><p><input type="button" id="cropBttn" value="Crop"></p></div><div class="tableCell box"><img src="" id="croppedImage"></div></div><input id="done" name="Done" value="Done" type="button"/></div>');
- 	document.getElementById("overlay").style.display = "block";
-
-
+var reader = new FileReader();
+	reader.readAsDataURL( this.files[ 0 ] );
+    reader.onload = function (e) {
+	window.localStorage.removeItem("image-base64");
+	seta(e.target.result);
+    window.localStorage.setItem( "image-base64", e.target.result );
+	console.log('onload for reader is done');
+	crop();
+	};
+	
 var imgInput = document.getElementById( "a1" ),
 /** @type {Node} */
 imgContainer = document.getElementById( "dis" );
@@ -17,32 +32,25 @@ updateUi = function() {
 };
 
 //if ( this.files.length ) {
-    var reader = new FileReader();
-	reader.readAsDataURL( this.files[ 0 ] );
-    reader.onload = function (e) {
-	window.localStorage.removeItem("image-base64");
-	a=e.target.result;
-   // window.localStorage.setItem( "image-base64", e.target.result );
-	console.log('image is set\n');
+    
 	
 	//a=localStorage[ "image-base64"] ;
 	//document.getElementById("a1").value=localStorage[ "image-base64"];
     //console.log(window.localStorage[ "image-base64"]);
-   };
-  // e();
-  // var a=window.localStorage.getItem( "image-base64" );
+ //  };
+  
     
-	 updateUi();
+	 //updateUi();
 		
   // }
-  function sleep(miliseconds) {
-   var currentTime = new Date().getTime();
+	
+	//window.localStorage.removeItem("image-base64");
 
-   while (currentTime + miliseconds >= new Date().getTime()) {
-   }
-}
-   //sleep(2000);
-   var imageCropper = {
+ 	document.getElementById("overlay").style.display = "block";
+
+function crop()
+{
+ var imageCropper = {
 
             ctx: null,
 
@@ -75,9 +83,12 @@ updateUi = function() {
 
             initCanvas: function(image) {
                 this.image = new Image();
-                 this.image.setAttribute('crossOrigin', 'anonymous'); //optional,  it is needed only if your image is not avalible on same domain.
-                this.image.src = a;//"http://icodingclub.github.io/imagecropper/steve-jobs.jpg";
+                 //this.image.setAttribute('crossOrigin', 'anonymous'); //optional,  it is needed only if your image is not avalible on same domain.
+                this.image.src = geta();//"http://icodingclub.github.io/imagecropper/steve-jobs.jpg";
+			//	console.log(a);
                 this.image.onload = function() {
+					//this.image.width=800px;
+					//this.image.height=800px;
                     this.ctx.canvas.width = this.image.width;
                     this.ctx.canvas.height = this.image.height;
                     this.reDrawCanvas();
@@ -254,26 +265,19 @@ updateUi = function() {
                 var imageData = tempCtx.canvas.toDataURL();
                 document.getElementById('croppedImage').src = imageData;
             }
-			
-	   
-        //validation code to see State field is mandatory.  
-    
-			
         }
 
         imageCropper.init();
+}
 		document.getElementById("done").onclick = function fun() {
-       document.getElementById('a1').innerHTML =document.getElementById('croppedImage').src;
+			console.log(document.getElementById('a1').value);
+			console.log(document.getElementById('croppedImage').src);
+       document.getElementById('a1').setAttribute('value',document.getElementById('croppedImage').src);
+	   // $( "#a1" ).val(document.getElementById('croppedImage').src) ;
+	   console.log(document.getElementById('a1').value);
 	   document.getElementById("overlay").style.display = "none";
 		}
 
 
 };
 
-function on() {
-    document.getElementById("overlay").style.display = "block";
-}
-
-function off() {
-    document.getElementById("overlay").style.display = "none";
-}
