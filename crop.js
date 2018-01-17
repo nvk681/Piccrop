@@ -6,6 +6,10 @@ a=val;
 function geta(){
 return a;
 }
+var parentid=$('#a1').parent().attr('id');
+console.log(parentid);
+//document.getElementById(parentid).append('<div><input id="x" type="number" /><input id="y" type="number"/><input id="width" type="number"/><input id="height" type="number"/></div>');
+$('#a1').parent().append('<input id="x" type="number" ></input><input id="y" type="number"/><input id="width" type="number"/><input id="height" type="number"/>');
 var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png",'.ani', '.bmp', '.cal', '.eps', '.fax', '.gif', '.img', '.jbg', '.jpe', '.jpeg', '.jpg', '.mac', '.pbm', '.pcd', '.pcx', '.pct', '.pgm', '.png', '.ppm', '.psd', '.ras', '.tga', '.tiff', '.wmf' ]; 
 function ValidateSingleInput(oInput) {
     if (oInput.type == "file") {
@@ -287,6 +291,14 @@ function crop()
                 tempCtx.canvas.height = this.image.height;
                 console.log(this.downPointX, this.downPointY, (this.lastPointX - this.downPointX), (this.lastPointY - this.downPointY));
                 document.getElementById('crop').value=(this.downPointX.toString()+" "+this.downPointY.toString()+" "+(this.lastPointX - this.downPointX).toString()+" "+(this.lastPointY - this.downPointY).toString());
+				
+				
+				
+				document.getElementById("x").value=this.downPointX;
+				document.getElementById("y").value=this.downPointY;
+				document.getElementById("width").value=(this.lastPointX - this.downPointX);
+				document.getElementById("height").value=(this.lastPointY - this.downPointY);
+				//document.getElementById('crop').value=updatedpic;
 				tempCtx.drawImage(this.image, this.downPointX, this.downPointY, (this.lastPointX - this.downPointX), (this.lastPointY - this.downPointY), 0, 0, (this.lastPointX - this.downPointX), (this.lastPointY - this.downPointY));
                 var imageData = tempCtx.canvas.toDataURL();
                 document.getElementById('croppedImage').src = imageData;
@@ -298,10 +310,10 @@ function crop()
 		document.getElementById("done").onclick = function fun() {
 			//console.log(document.getElementById('a1').value);
 			console.log(document.getElementById('croppedImage').src.length);
-			document.getElementById('a1').value = '';
-       document.getElementById('a1').setAttribute('value',document.getElementById('croppedImage').src);
+			//document.getElementById('a1').value = '';
+       //document.getElementById('a1').setAttribute('value',document.getElementById('croppedImage').src);
 	   // $( "#a1" ).val(document.getElementById('croppedImage').src) ;
-	   console.log(document.getElementById('crop').value.length);
+	   //console.log(document.getElementById('crop').value.length);
 	   document.getElementById("overlay").style.display = "none";
 		}
 	

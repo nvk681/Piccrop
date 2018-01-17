@@ -40,6 +40,6 @@
     */
 	
 }
-#crop{
+#crop, #x, #y, #width, #height {
 	display:none;
 }	
