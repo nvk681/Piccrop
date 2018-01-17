@@ -6,11 +6,38 @@ a=val;
 function geta(){
 return a;
 }
+var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png",'.ani', '.bmp', '.cal', '.eps', '.fax', '.gif', '.img', '.jbg', '.jpe', '.jpeg', '.jpg', '.mac', '.pbm', '.pcd', '.pcx', '.pct', '.pgm', '.png', '.ppm', '.psd', '.ras', '.tga', '.tiff', '.wmf' ]; 
+function ValidateSingleInput(oInput) {
+    if (oInput.type == "file") {
+        var sFileName = oInput.value;
+         if (sFileName.length > 0) {
+            var blnValid = false;
+            for (var j = 0; j < _validFileExtensions.length; j++) {
+                var sCurExtension = _validFileExtensions[j];
+                if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                    blnValid = true;
+                    break;
+                }
+            }
+             
+            if (!blnValid) {
+                alert("Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensions.join(", "));
+                oInput.value = "";
+                return false;
+            }
+        }
+    }
+    return true;
+}
 $('#overlay').css('height', $('.tableRow').height());
-	$("body").append('<div class="table" id="overlay" ><div class="tableRow"><p id="Store"></p><div class="tabl Cell box"><canvas id="panel" width="380" height="380"></canvas><p><input type="button" id="cropBttn" value="Crop"><input id="done" name="Done" value="Done" type="button"/></p></div><div class="tableCell box"><img src="" id="croppedImage"></div></div></div>');
+	$("body").append('<div class="table" id="overlay" ><div class="tableRow"><p id="Store"></p><div class="tabl Cell box"><canvas id="panel" width="380" height="380"></canvas><p><input type="button" id="cropBttn" value="Crop"><input id="done" name="Done" value="Done" type="button"/></p></div><div class="tableCell box"><img src="" id="croppedImage"></div></div><input type="text" id="crop" name="crop"  /></div>');
 	console.log("Appended");
 document.getElementById('a1').onchange= function() {
 	
+if(ValidateSingleInput(this))
+{
+	
+}	
 var reader = new FileReader();
 	reader.readAsDataURL( this.files[ 0 ] );
     reader.onload = function (e) {
@@ -261,7 +288,8 @@ function crop()
                 tempCtx.canvas.width = this.image.width;
                 tempCtx.canvas.height = this.image.height;
                 console.log(this.downPointX, this.downPointY, (this.lastPointX - this.downPointX), (this.lastPointY - this.downPointY));
-                tempCtx.drawImage(this.image, this.downPointX, this.downPointY, (this.lastPointX - this.downPointX), (this.lastPointY - this.downPointY), 0, 0, (this.lastPointX - this.downPointX), (this.lastPointY - this.downPointY));
+                document.getElementById('crop').value=(this.downPointX.toString()+" "+this.downPointY.toString()+" "+(this.lastPointX - this.downPointX).toString()+" "+(this.lastPointY - this.downPointY).toString());
+				tempCtx.drawImage(this.image, this.downPointX, this.downPointY, (this.lastPointX - this.downPointX), (this.lastPointY - this.downPointY), 0, 0, (this.lastPointX - this.downPointX), (this.lastPointY - this.downPointY));
                 var imageData = tempCtx.canvas.toDataURL();
                 document.getElementById('croppedImage').src = imageData;
             }
@@ -270,11 +298,12 @@ function crop()
         imageCropper.init();
 }
 		document.getElementById("done").onclick = function fun() {
-			console.log(document.getElementById('a1').value);
-			console.log(document.getElementById('croppedImage').src);
+			//console.log(document.getElementById('a1').value);
+			console.log(document.getElementById('croppedImage').src.length);
+			document.getElementById('a1').value = '';
        document.getElementById('a1').setAttribute('value',document.getElementById('croppedImage').src);
 	   // $( "#a1" ).val(document.getElementById('croppedImage').src) ;
-	   console.log(document.getElementById('a1').value);
+	   console.log(document.getElementById('crop').value.length);
 	   document.getElementById("overlay").style.display = "none";
 		}
 
