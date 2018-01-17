@@ -12,24 +12,34 @@ imgContainer = document.getElementById( "dis" );
 
 updateUi = function() {
 // imgContainer.src = window.localStorage.getItem( "image-base64" );
-console.log(window.localStorage.getItem( "image-base64" ));
-a=window.localStorage.getItem( "image-base64" );
+//console.log(window.localStorage.getItem( "image-base64" ));
+//a=window.localStorage.getItem( "image-base64" );
 };
 
 //if ( this.files.length ) {
     var reader = new FileReader();
-    reader.onload = function( e ){
+	reader.readAsDataURL( this.files[ 0 ] );
+    reader.onload = function (e) {
 	window.localStorage.removeItem("image-base64");
+	
     window.localStorage.setItem( "image-base64", e.target.result );
 	console.log('image is set\n');
-    updateUi();
+	a=window.localStorage.getItem( "image-base64" );
+    
    };
+  // e();
   // var a=window.localStorage.getItem( "image-base64" );
-   // reader.readAsDataURL( this.files[ 0 ] );
-	 
+    
+	 updateUi();
 		
   // }
-   
+  function sleep(miliseconds) {
+   var currentTime = new Date().getTime();
+
+   while (currentTime + miliseconds >= new Date().getTime()) {
+   }
+}
+   sleep(2000);
    var imageCropper = {
 
             ctx: null,
