@@ -36,8 +36,6 @@ document.getElementById('a1').onchange= function() {
 	
 if(ValidateSingleInput(this))
 {
-	
-}	
 var reader = new FileReader();
 	reader.readAsDataURL( this.files[ 0 ] );
     reader.onload = function (e) {
@@ -306,7 +304,11 @@ function crop()
 	   console.log(document.getElementById('crop').value.length);
 	   document.getElementById("overlay").style.display = "none";
 		}
-
+	
+}	
+else{
+	console.log('Not an image');
+}
 
 };
 
